@@ -314,7 +314,7 @@ class Server(srv.ThreadingHTTPServer, threading.Thread):
     """Wrapper class to store the module in the server and add threading"""
     def __init__(self, server_address, RequestHandler, module):
         super().__init__(server_address, RequestHandler)
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, name="Server-Thread")
         self.module = module
         self.last_request = 0 # Time of last request in seconds since epoch
 

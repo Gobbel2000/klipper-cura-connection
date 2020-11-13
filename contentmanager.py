@@ -44,6 +44,19 @@ class ContentManager:
 
     def get_print_job_status(self, path):
         """Return a print job model for the given path"""
+        metadata = self.module.metadata.get_metadata(path)
+        time = metadata.get_time() or 0
+        configuration = []
+        for i in range(metadata.get_extruder_count()):
+            configuration.append(ClusterPrintCoreConfiguration(
+                extruder_index=i,
+                material={
+                    "guid": metadata.get_material_guid(i),
+                    "brand": metadata.get_material_brand(i),
+                    "color": metadata.get_material_info("./m:metadata/m:name/m:color", i),
+                    "material": metadata.get_material_type(i),
+                }
+            ))
         return ClusterPrintJobStatus(
             created_at=self.get_time_str(),
             force=False,
@@ -54,10 +67,10 @@ class ContentManager:
             # pausing, paused, resuming, queued, printing, post_print
             # (possibly also aborted and aborting)
             status="queued",
-            time_total=0, #TODO set from the beginning
+            time_total=time,
             time_elapsed=0,
             uuid=self.new_uuid(),
-            configuration=self.printer_status.configuration, #TODO
+            configuration=self.printer_status.configuration,
             constraints=[],
         )
 

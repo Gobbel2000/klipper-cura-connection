@@ -86,6 +86,7 @@ class CuraConnectionModule:
                 "filament_manager", None)
         self.sdcard = self.printer.lookup_object("virtual_sdcard", None)
         self.printjob_progress = self.printer.lookup_object("printjob_progress", None)
+        self.metadata = self.printer.lookup_object("gcode_metadata", None)
 
     def handle_ready(self):
         """
