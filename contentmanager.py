@@ -140,7 +140,7 @@ class ContentManager:
         if self.print_jobs: # Update first print job if there is one
             current = s["printjobs"][0]
             elapsed = current.get_printed_time()
-            remaining = self.module.printjob_progress.get_print_time_prediction()[0]
+            remaining = self.module.print_stats.get_print_time_prediction()[0]
             self.print_jobs[0].time_elapsed = int(elapsed)
             self.print_jobs[0].assigned_to = self.printer_status.uuid
             self.print_jobs[0].time_total = int(elapsed + (1 if remaining is None else remaining))
